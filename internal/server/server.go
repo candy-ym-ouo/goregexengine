@@ -43,6 +43,8 @@ func decode(r *http.Request) (Request, *regex.Error) {
 	return q, nil
 }
 func (s *Server) handleAPI(w http.ResponseWriter, r *http.Request) {
+	enterRequest()
+	defer leaveRequest()
 	q, e := decode(r)
 	if e != nil {
 		writeJSON(w, http.StatusBadRequest, Response{Error: e})
