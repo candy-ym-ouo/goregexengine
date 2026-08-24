@@ -48,7 +48,7 @@ func (s *Server) handleAPI(w http.ResponseWriter, r *http.Request) {
 		writeJSON(w, http.StatusBadRequest, Response{Error: e})
 		return
 	}
-	c, ce := regex.Compile(q.Pattern, regex.ParseOptions(q.Flags))
+	c, ce := regex.Compile(q.Pattern, regex.ParseOptions(forwardFlags(q.Flags)))
 	if ce != nil {
 		writeJSON(w, http.StatusOK, Response{Error: ce})
 		return
