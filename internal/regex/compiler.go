@@ -31,7 +31,7 @@ func Compile(pattern string, options Options) (*Compiled, *Error) {
 	}
 	nfa, _ := BuildNFA(pattern)
 	groups := re.NumSubexp()
-	names := map[string]int{}
+	names := cachedNames()
 	for i, n := range re.SubexpNames() {
 		if i > 0 && n != "" {
 			names[n] = i
