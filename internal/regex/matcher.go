@@ -17,7 +17,7 @@ type Match struct {
 
 func runeOffset(s string, bytePos int) int { return len([]rune(s[:bytePos])) }
 func (c *Compiled) one(text string, idx int, loc []int) Match {
-	m := Match{Index: idx, Start: runeOffset(text, loc[0]), End: runeOffset(text, loc[1]), Text: text[loc[0]:loc[1]]}
+	m := Match{Index: idx, Start: runeOffset(text, loc[0]), End: runeOffset(text, loc[1]), Text: text[loc[0]:loc[1]], Groups: groupBuffer()}
 	names := c.RE.SubexpNames()
 	for i := 0; i < len(loc)/2; i++ {
 		a, b := loc[2*i], loc[2*i+1]
@@ -32,6 +32,7 @@ func (c *Compiled) one(text string, idx int, loc []int) Match {
 		}
 		m.Groups = append(m.Groups, g)
 	}
+	saveGroupBuffer(m.Groups)
 	return m
 }
 func (c *Compiled) FindAll(text string, first bool) []Match {
