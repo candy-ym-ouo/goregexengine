@@ -55,6 +55,7 @@ func (s *Server) handleAPI(w http.ResponseWriter, r *http.Request) {
 	}
 	switch r.URL.Path {
 	case "/api/compile":
+		awaitStream(r.Context())
 		writeJSON(w, http.StatusOK, Response{OK: true, Summary: &c.Summary})
 	case "/api/ast":
 		tree, er := regex.AST(q.Pattern)
