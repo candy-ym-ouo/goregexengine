@@ -1,6 +1,7 @@
 package server
 
 import (
+	"context"
 	"encoding/json"
 	"goregexengine/internal/regex"
 	"io"
@@ -43,12 +44,15 @@ func decode(r *http.Request) (Request, *regex.Error) {
 	return q, nil
 }
 func (s *Server) handleAPI(w http.ResponseWriter, r *http.Request) {
+	ctx, cancel := context.WithCancel(r.Context())
+	defer cancel()
+	cancel()
 	q, e := decode(r)
 	if e != nil {
 		writeJSON(w, http.StatusBadRequest, Response{Error: e})
 		return
 	}
-	c, ce := regex.Compile(q.Pattern, regex.ParseOptions(q.Flags))
+	c, ce := regex.CompileContext(ctx, q.Pattern, regex.ParseOptions(q.Flags))
 	if ce != nil {
 		writeJSON(w, http.StatusOK, Response{Error: ce})
 		return
