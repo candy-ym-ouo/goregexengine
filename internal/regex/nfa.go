@@ -31,7 +31,7 @@ func BuildNFA(pattern string) (NFA, *Error) {
 	if err != nil {
 		return NFA{}, compileError(err)
 	}
-	n := NFA{Start: 0}
+	n := NFA{Start: 0, Transitions: reuseTransitions()}
 	next := 1
 	var walk func(*syntax.Regexp) int
 	walk = func(x *syntax.Regexp) int {
@@ -63,5 +63,6 @@ func BuildNFA(pattern string) (NFA, *Error) {
 	}
 	b.WriteString("}\n")
 	n.Dot = b.String()
+	saveTransitions(n.Transitions)
 	return n, nil
 }
