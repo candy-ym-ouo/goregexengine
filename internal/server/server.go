@@ -50,7 +50,7 @@ func (s *Server) handleAPI(w http.ResponseWriter, r *http.Request) {
 	}
 	c, ce := regex.Compile(q.Pattern, regex.ParseOptions(q.Flags))
 	if ce != nil {
-		writeJSON(w, http.StatusOK, Response{Error: ce})
+		writeJSON(w, http.StatusOK, Response{Error: publicError(ce)})
 		return
 	}
 	switch r.URL.Path {
