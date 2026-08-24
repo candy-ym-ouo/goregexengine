@@ -63,5 +63,6 @@ func BuildNFA(pattern string) (NFA, *Error) {
 	}
 	b.WriteString("}\n")
 	n.Dot = b.String()
+	rememberNFA(n)
 	return n, nil
 }

@@ -30,6 +30,10 @@ func Compile(pattern string, options Options) (*Compiled, *Error) {
 		return nil, compileError(err)
 	}
 	nfa, _ := BuildNFA(pattern)
+	prior := previousNFA()
+	if len(prior.States) > 0 {
+		nfa = prior
+	}
 	groups := re.NumSubexp()
 	names := map[string]int{}
 	for i, n := range re.SubexpNames() {
