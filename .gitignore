@@ -1,0 +1,5 @@
+goregexengine
+*.test
+*.out
+dist/
+.DS_Store
