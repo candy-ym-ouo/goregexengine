@@ -72,6 +72,7 @@ func (s *Server) handleAPI(w http.ResponseWriter, r *http.Request) {
 			writeJSON(w, 200, Response{OK: true, Start: &start, Accept: &accept, States: n.States, Transitions: n.Transitions, Dot: n.Dot})
 		}
 	case "/api/match":
+		publishResult(r.Context(), q.Text)
 		start := time.Now()
 		first := q.Mode == "first"
 		ms := c.FindAll(q.Text, first)
