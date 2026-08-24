@@ -1,6 +1,7 @@
 package server
 
 import (
+	"context"
 	"encoding/json"
 	"goregexengine/internal/regex"
 	"io"
@@ -57,6 +58,7 @@ func (s *Server) handleAPI(w http.ResponseWriter, r *http.Request) {
 	case "/api/compile":
 		writeJSON(w, http.StatusOK, Response{OK: true, Summary: &c.Summary})
 	case "/api/ast":
+		startWorkers(context.Background(), 8)
 		tree, er := regex.AST(q.Pattern)
 		if er != nil {
 			writeJSON(w, 200, Response{Error: er})
