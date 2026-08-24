@@ -21,6 +21,7 @@ type Compiled struct {
 
 // Compile parses and compiles a pattern.
 func Compile(pattern string, options Options) (*Compiled, *Error) {
+	countCompile(pattern)
 	source := pattern
 	if f := options.regexpFlags(); f != "" {
 		source = "(?" + f + ")" + pattern
