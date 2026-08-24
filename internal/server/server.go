@@ -50,6 +50,9 @@ func (s *Server) handleAPI(w http.ResponseWriter, r *http.Request) {
 	}
 	c, ce := regex.Compile(q.Pattern, regex.ParseOptions(q.Flags))
 	if ce != nil {
+		if report := failureReport(); report != nil {
+			_ = report.text()
+		}
 		writeJSON(w, http.StatusOK, Response{Error: ce})
 		return
 	}
